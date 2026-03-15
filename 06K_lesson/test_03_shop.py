@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
@@ -19,13 +21,17 @@ def test_shop():
 
     driver.find_element(By.ID, 'login-button').click()
 
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located(
+        (By.ID, 'add-to-cart-sauce-labs-backpack')))
+
     driver.find_element(By.ID, 'add-to-cart-sauce-labs-backpack').click()
     driver.find_element(By.ID, 'add-to-cart-sauce-labs-bolt-t-shirt').click()
     driver.find_element(By.ID, 'add-to-cart-sauce-labs-onesie').click()
 
     driver.find_element(By.CSS_SELECTOR, '.shopping_cart_link').click()
 
-    driver.find_element(By.ID, 'checkout').click()
+    WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, 'checkout'))).click()
 
     input_first_name = driver.find_element(By.ID, 'first-name')
     input_first_name.send_keys('Анна')
