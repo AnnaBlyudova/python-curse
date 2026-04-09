@@ -1,6 +1,6 @@
 from database import StudentDB
 
-DB_STRING = "postgresql://postgres:gfhjkm2013@localhost:5432/SQL"
+DB_STRING = "ppostgresql://myuser:mypassword@localhost:5432/mydatabase"
 db = StudentDB(DB_STRING)
 
 
