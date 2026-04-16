@@ -1,5 +1,6 @@
 import allure
 from selenium import webdriver
+from selenium.webdriver.remote.webdriver import WebDriver
 from page.calculator import Calculator
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
@@ -12,7 +13,13 @@ import pytest
 class TestCalculator:
 
     @pytest.fixture()
-    def driver(self):
+    def driver(self) -> WebDriver:
+        """
+        Фикстура для инициализации и закрытия драйвера Chrome.
+
+        Yields:
+            WebDriver: Экземпляр драйвера Chrome
+        """
         driver = webdriver.Chrome(
             service=ChromeService(ChromeDriverManager().install()))
         driver.maximize_window()
@@ -31,7 +38,13 @@ class TestCalculator:
     @allure.link(
         "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html",
         name="Slow Calculator")
-    def test_calculator(self, driver):
+    def test_calculator(self, driver: WebDriver) -> None:
+        """
+        Тест проверки работы калькулятора с задержкой.
+
+        Args:
+            driver: Экземпляр WebDriver
+        """
         with allure.step('Открыть страницу калькулятора и выполнить действия'):
             calc = Calculator(driver)
 
@@ -46,4 +59,4 @@ class TestCalculator:
 
         with allure.step('Проверить результат вычисления'):
             result_text = calc.get_result_text()
-            assert result_text == '15'
+            assert result_text == '15', f'Ожидалось "15", получено "{result_text}"'

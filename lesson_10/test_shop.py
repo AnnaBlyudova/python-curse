@@ -1,5 +1,6 @@
 import allure
 from selenium import webdriver
+from selenium.webdriver.remote.webdriver import WebDriver
 from page.autoriz import LoginPage
 from page.products import Products
 from page.cart import Card
@@ -14,7 +15,13 @@ from webdriver_manager.firefox import GeckoDriverManager
 class TestShop:
 
     @pytest.fixture()
-    def driver(self):
+    def driver(self) -> WebDriver:
+        """
+        Фикстура для инициализации и закрытия драйвера Firefox.
+
+        Returns:
+            WebDriver: Экземпляр драйвера Firefox
+        """
         driver = webdriver.Firefox(
             service=FirefoxService(GeckoDriverManager().install()))
         driver.maximize_window()
@@ -36,7 +43,13 @@ class TestShop:
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.tag('smoke', 'regression')
     @allure.link('https://www.saucedemo.com/', name='SauceDemo')
-    def test_shop(self, driver):
+    def test_shop(self, driver: WebDriver) -> None:
+        """
+        Тест проверки оформления заказа в интернет-магазине.
+
+        Args:
+            driver: Экземпляр WebDriver
+        """
         with allure.step('Открыть страницу авторизации и выполнить вход'):
             name = LoginPage(driver)
             name.autorization('standard_user', 'secret_sauce')
@@ -55,4 +68,4 @@ class TestShop:
 
         with allure.step('Проверить итоговую стоимость заказа'):
             result_price = full_form.get_total()
-            assert '$58.29' in result_price
+            assert '$58.29' in result_price, f'Ожидалось "$58.29", получено "{result_price}"'
