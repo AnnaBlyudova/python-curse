@@ -8,6 +8,7 @@ from page.checkout_page import CheckoutPage
 import pytest
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+from typing import Generator
 
 
 @allure.feature('Интернет-магазин SauceDemo')
@@ -15,15 +16,11 @@ from webdriver_manager.firefox import GeckoDriverManager
 class TestShop:
 
     @pytest.fixture()
-    def driver(self) -> WebDriver:
-        """
-        Фикстура для инициализации и закрытия драйвера Firefox.
-
-        Returns:
-            WebDriver: Экземпляр драйвера Firefox
-        """
+    def driver(self) -> Generator[WebDriver, None, None]:
+        """Фикстура драйвера Firefox."""
         driver = webdriver.Firefox(
-            service=FirefoxService(GeckoDriverManager().install()))
+            service=FirefoxService(GeckoDriverManager().install())
+        )
         driver.maximize_window()
         yield driver
         driver.quit()
@@ -32,24 +29,19 @@ class TestShop:
     @allure.feature("Оформление заказа")
     @allure.story("Добавление товаров и покупка")
     @allure.title("Тест оформления заказа с добавлением товаров")
-    @allure.description("""
-        Тест проверяет оформление заказа в интернет-магазине SauceDemo:
-        1. Авторизация как standard_user
-        2. Добавление товаров: Backpack, Bolt T-Shirt, Onesie
-        3. Переход в корзину и нажатие Checkout
-        4. Заполнение формы данными покупателя
-        5. Проверка итоговой суммы: $58.29
-    """)
+    @allure.description(
+        "Тест проверяет оформление заказа в интернет-магазине SauceDemo:\n"
+        "1. Авторизация как standard_user\n"
+        "2. Добавление товаров: Backpack, Bolt T-Shirt, Onesie\n"
+        "3. Переход в корзину и нажатие Checkout\n"
+        "4. Заполнение формы данными покупателя\n"
+        "5. Проверка итоговой суммы: $58.29"
+    )
     @allure.severity(allure.severity_level.CRITICAL)
     @allure.tag('smoke', 'regression')
     @allure.link('https://www.saucedemo.com/', name='SauceDemo')
     def test_shop(self, driver: WebDriver) -> None:
-        """
-        Тест проверки оформления заказа в интернет-магазине.
-
-        Args:
-            driver: Экземпляр WebDriver
-        """
+        """Тест оформления заказа."""
         with allure.step('Открыть страницу авторизации и выполнить вход'):
             name = LoginPage(driver)
             name.autorization('standard_user', 'secret_sauce')
@@ -68,4 +60,6 @@ class TestShop:
 
         with allure.step('Проверить итоговую стоимость заказа'):
             result_price = full_form.get_total()
-            assert '$58.29' in result_price, f'Ожидалось "$58.29", получено "{result_price}"'
+            assert '$58.29' in result_price, (
+                f'Ожидалось "$58.29", получено "{result_price}"'
+            )

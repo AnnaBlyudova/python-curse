@@ -25,7 +25,8 @@ class Calculator():
         Устанавливает задержку 45 секунд перед вычислением.
 
         Returns:
-            Calculator: Возвращает экземпляр текущего класса для цепочки вызовов
+            Calculator: Возвращает экземпляр
+            текущего класса для цепочки вызовов
         """
         input_delay = self.driver.find_element(By.ID, 'delay')
         input_delay.clear()
@@ -38,7 +39,8 @@ class Calculator():
         Выполняет сложение 7 + 8, нажимая последовательно кнопки: 7, +, 8, =.
 
         Returns:
-            Calculator: Возвращает экземпляр текущего класса для цепочки вызовов
+            Calculator: Возвращает экземпляр
+            текущего класса для цепочки вызовов
         """
         with allure.step('Нажать кнопку 7'):
             self.driver.find_element(By.XPATH, "//span[text()='7']").click()
@@ -56,7 +58,8 @@ class Calculator():
         Ожидает появления результата 15 на экране калькулятора (до 50 секунд).
 
         Returns:
-            Calculator: Возвращает экземпляр текущего класса для цепочки вызовов
+            Calculator: Возвращает экземпляр
+            текущего класса для цепочки вызовов
         """
         WebDriverWait(self.driver, 50).until(
             EC.text_to_be_present_in_element((

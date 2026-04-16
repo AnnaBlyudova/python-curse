@@ -5,6 +5,7 @@ from page.calculator import Calculator
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import pytest
+from typing import Generator
 
 
 @allure.epic("Калькулятор")
@@ -13,15 +14,11 @@ import pytest
 class TestCalculator:
 
     @pytest.fixture()
-    def driver(self) -> WebDriver:
-        """
-        Фикстура для инициализации и закрытия драйвера Chrome.
-
-        Yields:
-            WebDriver: Экземпляр драйвера Chrome
-        """
+    def driver(self) -> Generator[WebDriver, None, None]:
+        """Фикстура драйвера Chrome."""
         driver = webdriver.Chrome(
-            service=ChromeService(ChromeDriverManager().install()))
+            service=ChromeService(ChromeDriverManager().install())
+        )
         driver.maximize_window()
         yield driver
         driver.quit()
@@ -30,22 +27,18 @@ class TestCalculator:
     @allure.feature("Сложение")
     @allure.story("Сложение с задержкой")
     @allure.title("Тест сложения 7 + 8 с задержкой 45 секунд")
-    @allure.description("""
-        Тест проверяет сложение 7 + 8 на калькуляторе с задержкой 45 секунд.
-        Ожидаемый результат: 15
-    """)
+    @allure.description(
+        "Тест проверяет сложение 7 + 8 на калькуляторе "
+        "с задержкой 45 секунд. Ожидаемый результат: 15"
+    )
     @allure.tag("smoke", "calculator")
     @allure.link(
         "https://bonigarcia.dev/selenium-webdriver-java/slow-calculator.html",
-        name="Slow Calculator")
+        name="Slow Calculator"
+    )
     def test_calculator(self, driver: WebDriver) -> None:
-        """
-        Тест проверки работы калькулятора с задержкой.
-
-        Args:
-            driver: Экземпляр WebDriver
-        """
-        with allure.step('Открыть страницу калькулятора и выполнить действия'):
+        """Тест работы калькулятора."""
+        with allure.step('Открыть страницу калькулятора'):
             calc = Calculator(driver)
 
         with allure.step('Установить задержку 45 секунд'):
@@ -59,4 +52,6 @@ class TestCalculator:
 
         with allure.step('Проверить результат вычисления'):
             result_text = calc.get_result_text()
-            assert result_text == '15', f'Ожидалось "15", получено "{result_text}"'
+            assert result_text == '15', (
+                f'Ожидалось "15", получено "{result_text}"'
+            )

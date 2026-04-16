@@ -34,11 +34,15 @@ class Products():
             Products: Возвращает экземпляр текущего класса для цепочки вызовов
         """
         with allure.step('Добавить Sauce Labs Backpack'):
-            self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-backpack').click()
+            self.driver.find_element(
+                By.ID, 'add-to-cart-sauce-labs-backpack').click()
         with allure.step('Добавить Sauce Labs Bolt T-Shirt'):
-            self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-bolt-t-shirt').click()
+            self.driver.find_element(
+                By.ID, 'add-to-cart-sauce-labs-bolt-t-shirt').click()
         with allure.step('Добавить Sauce Labs Onesie'):
-            self.driver.find_element(By.ID, 'add-to-cart-sauce-labs-onesie').click()
+            self.driver.find_element(
+                By.ID, 'add-to-cart-sauce-labs-onesie').click()
         with allure.step('Перейти в корзину'):
-            self.driver.find_element(By.CSS_SELECTOR, '.shopping_cart_link').click()
+            self.driver.find_element(
+                By.CSS_SELECTOR, '.shopping_cart_link').click()
         return self
