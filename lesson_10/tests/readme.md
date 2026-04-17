@@ -38,3 +38,14 @@ allure serve allure-results
 ## Примечания
 - Если Firefox не открывает сайт saucedemo.com. Ошибка PR_CONNECT_RESET_ERROR связана с проблемами на стороне браузера.
 - Тест для калькулятора использует Chrome, тест для магазина - Firefox (по условию задания).
+"""Running pytest with args: ['-p', 'vscode_pytest', '--rootdir=c:\\Users\\Анна\\Desktop\\Python домашка\\python-curse', 'c:\\Users\\Анна\\Desktop\\Python домашка\\python-curse\\lesson_10\\tests\\test_shop.py::TestShop::test_shop']
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.3, pluggy-1.6.0
+rootdir: c:\Users\Анна\Desktop\Python домашка\python-curse
+plugins: allure-pytest-2.15.3
+collected 1 item
+
+lesson_10\tests\test_shop.py .                                           [100%]
+
+============================= 1 passed in 24.02s ==============================
+Finished running tests!"""

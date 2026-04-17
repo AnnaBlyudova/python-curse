@@ -16,12 +16,22 @@ class TestCalculator:
     @pytest.fixture()
     def driver(self) -> Generator[WebDriver, None, None]:
         """Фикстура драйвера Chrome."""
-        driver = webdriver.Chrome(
-            service=ChromeService(ChromeDriverManager().install())
-        )
+        service = ChromeService(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service)
         driver.maximize_window()
         yield driver
         driver.quit()
+
+    @allure.title("Тест сложения 7 + 8")
+    def test_addition(self, driver):
+        """Тест проверяет, что калькулятор правильно складывает 7 и 8."""
+        calculator = Calculator(driver)
+        calculator.set_delay()
+        calculator.add_numbers()
+        calculator.wait_for_result()
+        result = calculator.get_result_text()
+
+        assert result == '15', f"Ожидалось 15, получено {result}"
 
     @allure.id("CALC-1")
     @allure.feature("Сложение")
