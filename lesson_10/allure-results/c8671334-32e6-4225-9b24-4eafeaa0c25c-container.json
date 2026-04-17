@@ -1,0 +1,1 @@
+{"uuid": "27a4da10-96a7-45b6-a24b-5eb6107f5474", "children": ["a8ee5a4a-7662-4dc5-908d-43679cb8985e"], "befores": [{"name": "driver", "status": "passed", "steps": [{"name": "Инициализация драйвера Firefox", "status": "passed", "start": 1776354747748, "stop": 1776354747748}], "start": 1776354747748, "stop": 1776354747749}], "start": 1776354747748, "stop": 1776354747969}
